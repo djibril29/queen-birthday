@@ -1,4 +1,4 @@
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Méthode non autorisée" });
   }
@@ -10,7 +10,16 @@ export default function handler(req, res) {
     return res.status(500).json({ error: "Configuration serveur manquante" });
   }
 
-  const { password } = req.body || {};
+  let body = req.body;
+  if (typeof body === "string") {
+    try {
+      body = JSON.parse(body);
+    } catch {
+      body = {};
+    }
+  }
+
+  const { password } = body || {};
 
   if (password !== sitePassword) {
     return res.status(401).json({ error: "Mot de passe incorrect" });

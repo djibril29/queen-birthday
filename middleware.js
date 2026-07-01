@@ -1,3 +1,17 @@
+function getCookie(request, name) {
+  const header = request.headers.get("cookie");
+  if (!header) return null;
+
+  for (const part of header.split(";")) {
+    const [key, ...valueParts] = part.trim().split("=");
+    if (key === name) {
+      return decodeURIComponent(valueParts.join("="));
+    }
+  }
+
+  return null;
+}
+
 export default function middleware(request) {
   const { pathname } = new URL(request.url);
 
@@ -7,12 +21,14 @@ export default function middleware(request) {
     pathname.startsWith("/css/") ||
     pathname.startsWith("/js/")
   ) {
-    return;
+    return fetch(request);
   }
 
-  const authCookie = request.cookies.get("auth");
-  if (authCookie?.value === process.env.AUTH_TOKEN) {
-    return;
+  const authToken = process.env.AUTH_TOKEN;
+  const cookieValue = getCookie(request, "auth");
+
+  if (authToken && cookieValue === authToken) {
+    return fetch(request);
   }
 
   return Response.redirect(new URL("/login.html", request.url));

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joyeux anniversaire Awa 👑</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="particles" aria-hidden="true"></div>
+
+  <section id="landing" class="screen screen--active">
+    <div class="landing__content">
+      <p class="landing__subtitle">✨</p>
+      <h1 class="landing__title" id="landing-title">Une surprise t'attend...</h1>
+      <button type="button" class="btn-surprise" id="btn-open">
+        Ouvrir la surprise 🎁
+      </button>
+    </div>
+  </section>
+
+  <section id="reveal" class="screen screen--hidden" aria-hidden="true">
+    <div class="reveal__content">
+      <p class="reveal__intro" id="intro-line"></p>
+      <h2 class="reveal__name" id="name-line" aria-live="polite">
+        <span id="name-text"></span><span class="cursor" id="name-cursor" aria-hidden="true">|</span>
+      </h2>
+      <figure class="reveal__photo-wrap hidden" id="photo-wrap">
+        <img class="reveal__photo" id="photo" src="" alt="">
+      </figure>
+      <div class="reveal__message hidden" id="message-wrap"></div>
+
+      <section class="memories hidden" id="memories-wrap" aria-label="Souvenirs et bêtisier">
+        <div class="memories__tabs" role="tablist" aria-label="Sections">
+          <button type="button" class="memories__tab memories__tab--active" id="tab-timeline" role="tab" aria-selected="true" aria-controls="panel-timeline">
+            Nos souvenirs
+          </button>
+          <button type="button" class="memories__tab" id="tab-bloopers" role="tab" aria-selected="false" aria-controls="panel-bloopers">
+            Bêtisier
+          </button>
+        </div>
+
+        <div class="memories__panel memories__panel--active" id="panel-timeline" role="tabpanel" aria-labelledby="tab-timeline">
+          <p class="memories__hint">Déroule pour revivre chaque moment</p>
+          <ol class="timeline" id="timeline"></ol>
+        </div>
+
+        <div class="memories__panel hidden" id="panel-bloopers" role="tabpanel" aria-labelledby="tab-bloopers" hidden>
+          <p class="memories__hint">Ses plus belles bêtises, en vidéo 😄</p>
+          <div class="bloopers" id="bloopers"></div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+    <button type="button" class="lightbox__close" id="lightbox-close" aria-label="Fermer">&times;</button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightbox-img" src="" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+
+  <button type="button" class="btn-mute hidden" id="btn-mute" aria-label="Couper le son">
+    <span class="btn-mute__icon" id="mute-icon">🔊</span>
+  </button>
+
+  <audio id="music" preload="auto" loop></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

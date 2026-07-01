@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accès privé 👑</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="particles" aria-hidden="true"></div>
+
+  <main class="login">
+    <div class="login__content">
+      <p class="login__icon">🔒</p>
+      <h1 class="login__title">Accès privé</h1>
+      <p class="login__subtitle">Entre le mot de passe pour découvrir la surprise</p>
+
+      <form class="login__form" id="login-form">
+        <label class="login__label" for="password">Mot de passe</label>
+        <input
+          class="login__input"
+          type="password"
+          id="password"
+          name="password"
+          autocomplete="current-password"
+          required
+          autofocus
+        >
+        <p class="login__error hidden" id="login-error" role="alert"></p>
+        <button type="submit" class="btn-surprise login__submit" id="login-submit">
+          Entrer 👑
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById("login-form");
+    const passwordInput = document.getElementById("password");
+    const errorEl = document.getElementById("login-error");
+    const submitBtn = document.getElementById("login-submit");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      errorEl.classList.add("hidden");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Vérification…";
+
+      try {
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: passwordInput.value })
+        });
+
+        if (response.ok) {
+          window.location.href = "/";
+          return;
+        }
+
+        const data = await response.json().catch(() => ({}));
+        errorEl.textContent = data.error || "Mot de passe incorrect";
+        errorEl.classList.remove("hidden");
+      } catch {
+        errorEl.textContent = "Erreur de connexion. Réessaie.";
+        errorEl.classList.remove("hidden");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Entrer 👑";
+      }
+    });
+  </script>
+</body>
+</html>

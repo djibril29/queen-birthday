@@ -1,50 +1,44 @@
 # Carte d'anniversaire — Awa Ndiaye 👑
 
-Page web statique : confettis, musique, message personnalisé, timeline de souvenirs et bêtisier vidéo.
+Page web statique protégée par mot de passe : confettis, musique, timeline de souvenirs et bêtisier vidéo.
+
+## Authentification
+
+Le site est protégé par un **mot de passe unique**. Sur Vercel, configure ces variables d'environnement :
+
+| Variable | Description |
+|----------|-------------|
+| `SITE_PASSWORD` | Le mot de passe que tu choisis (seul toi le connais) |
+| `AUTH_TOKEN` | Token aléatoire pour la session (génère-le une fois) |
+
+Générer le token :
+
+```bash
+openssl rand -hex 32
+```
+
+Sur Vercel : **Project → Settings → Environment Variables** → ajoute les deux variables → **Redeploy**.
+
+Sans ces variables, la page de login affichera une erreur serveur.
 
 ## Personnalisation
 
-Éditez uniquement [`js/config.js`](js/config.js) :
+Édite [`js/config.js`](js/config.js) pour les textes, photos et vidéos.
 
-```javascript
-const BIRTHDAY_CONFIG = {
-  name: "Awa Ndiaye",
-  nickname: "Ma reine",
-  timeline: [
-    {
-      date: "31 mai 2026",
-      src: "assets/gallery/photo.jpg",
-      text: "Le petit texte à côté de la photo"
-    }
-  ],
-  bloopers: [
-    {
-      src: "assets/bloopers/video1.mp4",
-      title: "Titre de la bêtise",
-      text: "Description optionnelle"
-    }
-  ]
-};
-```
+## Déploiement Vercel
 
-### Fichiers média
+1. Push sur GitHub ou glisse-dépose le dossier sur [vercel.com/new](https://vercel.com/new)
+2. Ajoute `SITE_PASSWORD` et `AUTH_TOKEN` dans les variables d'environnement
+3. Redéploie
 
-- **Photos** — `assets/gallery/`
-- **Vidéos bêtisier** — `assets/bloopers/` (MP4)
-- **Musique** — `assets/music.mp3`
+Le mot de passe **n'est jamais dans le code** — uniquement dans les variables Vercel.
 
 ## Prévisualisation locale
 
+L'authentification ne fonctionne qu'avec Vercel (middleware + API) :
+
 ```bash
-cd queen-birthday
-python3 -m http.server 8080
+npx vercel dev
 ```
 
-Puis visitez http://localhost:8080
-
-## Déploiement
-
-- **Vercel** : glissez-déposez le dossier sur [vercel.com/new](https://vercel.com/new)
-- **Netlify Drop** : [app.netlify.com/drop](https://app.netlify.com/drop)
-- **GitHub Pages** : poussez le repo et activez Pages sur la branche `main`
-# queen-birthday
+Puis configure un fichier `.env.local` (copie de `.env.example`).
